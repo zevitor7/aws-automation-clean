@@ -6,7 +6,7 @@ ec2 = session.client('ec2')
 
 action = sys.argv[1]
 
-INSTANCE_ID = "SEU_INSTANCE_ID_AQUI"
+INSTANCE_ID = "i-07344cb3c5e98d24b"
 
 if action == "start":
     ec2.start_instances(InstanceIds=[INSTANCE_ID])
