@@ -4,9 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "Escolha a ação"
+        description: "start | stop | create"
         required: true
-        default: "start"
+       instance_id:
+    description: "ID da EC2"
+    required: false
 
 jobs:
   executar:
@@ -30,4 +32,4 @@ jobs:
         run: pip install boto3
 
       - name: Executar ação
-        run: python ec2_manager.py ${{ github.event.inputs.action }}
+        run: python ec2_manager.py ${{ github.event.inputs.action }} ${{ github.event.inputs.instance_id }}

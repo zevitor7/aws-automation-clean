@@ -1,24 +1,23 @@
 import boto3
 import sys
 
-session = boto3.Session(region_name='us-east-2')
+session = boto3.Session(region_name='sa-east-2')
 ec2 = session.client('ec2')
 
 action = sys.argv[1]
-
-INSTANCE_ID = "i-07344cb3c5e98d24b"
+instance_id = sys.argv[2] if len(sys.argv) > 2 else None
 
 if action == "start":
-    ec2.start_instances(InstanceIds=[INSTANCE_ID])
-    print("Instância iniciada!")
+    ec2.start_instances(InstanceIds=[instance_id])
+    print(f"Instância {instance_id} iniciada!")
 
 elif action == "stop":
-    ec2.stop_instances(InstanceIds=[INSTANCE_ID])
-    print("Instância parada!")
+    ec2.stop_instances(InstanceIds=[instance_id])
+    print(f"Instância {instance_id} parada!")
 
 elif action == "create":
     response = ec2.run_instances(
-        ImageId='ami-0c55b159cbfafe1f0',  # Amazon Linux
+        ImageId='ami-0c55b159cbfafe1f0',
         InstanceType='t2.micro',
         MinCount=1,
         MaxCount=1
