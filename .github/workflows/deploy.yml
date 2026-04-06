@@ -6,30 +6,31 @@ on:
       action:
         description: "start | stop | create"
         required: true
-       instance_id:
-    description: "ID da EC2"
-    required: false
+      instance_id:
+        description: "ID da EC2"
+        required: false
 
 jobs:
-  executar:
+  deploy:
     runs-on: ubuntu-latest
 
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: us-east-1
-
     steps:
-      - name: Checkout
+      - name: Baixar código
         uses: actions/checkout@v3
 
-      - name: Setup Python
+      - name: Configurar Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Install boto3
+      - name: Instalar dependências
         run: pip install boto3
+
+      - name: Configurar AWS
+        run: |
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          export AWS_DEFAULT_REGION=us-east-2
 
       - name: Executar ação
         run: python ec2_manager.py ${{ github.event.inputs.action }} ${{ github.event.inputs.instance_id }}
