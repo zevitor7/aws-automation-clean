@@ -1,7 +1,6 @@
 import boto3
 import sys
 
-session = boto3.Session(region_name='sa-east-2')
 ec2 = session.client('ec2')
 
 action = sys.argv[1]
