@@ -1,12 +1,15 @@
-name: AWS Automation
+name: EC2 Automation
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Escolha a ação"
+        required: true
+        default: "start"
 
 jobs:
-  executar-script:
+  executar:
     runs-on: ubuntu-latest
 
     env:
@@ -26,5 +29,5 @@ jobs:
       - name: Install boto3
         run: pip install boto3
 
-      - name: Run script
-        run: python listar_ec2.py
+      - name: Executar ação
+        run: python ec2_manager.py ${{ github.event.inputs.action }}
